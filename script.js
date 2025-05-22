@@ -1,0 +1,832 @@
+// DOM Elements
+const projectsGrid = document.querySelector(".projects-grid")
+const educationGrid = document.querySelector(".education-grid")
+const hackathonsGrid = document.querySelector(".hackathons-grid")
+const skillsGrid = document.querySelector(".skills-grid")
+const additionalInfo = document.querySelector(".additional-info")
+const copyEmailBtn = document.getElementById("copy-email")
+const copyEmailAltBtn = document.getElementById("copy-email-alt")
+const projectModal = document.getElementById("project-modal")
+const closeModalBtn = document.querySelector(".close-modal")
+const modalBody = document.querySelector(".modal-body")
+const currentYearSpan = document.getElementById("current-year")
+
+// Set current year in footer
+currentYearSpan.textContent = new Date().getFullYear()
+
+// Data - Modified to only include the 2 requested projects
+const projects = [
+  {
+    id: 1,
+    title: "Face Recognition-based Employee Attendance System",
+    subtitle: "IoT + Cloud Face Recognition Attendance Tracker",
+    description:
+      "Built an IoT-based system using Raspberry Pi & Firebase for employee attendance automation. Used face recognition for identity verification, stored 128-d encodings in Firestore. Implemented edge-cloud architecture for real-time, accurate, server-independent tracking.",
+    technologies: ["Raspberry Pi", "Picamera2", "Firebase Firestore", "Python", "Face Recognition", "OpenCV"],
+    icon: "🔍",
+  },
+  {
+    id: 2,
+    title: "Badminton E-commerce Web App",
+    subtitle: "Responsive Shopping Site for Badminton Gear",
+    description:
+      "Created a user-friendly shopping platform with login, product browsing, and checkout. Features add-to-cart, delivery address input, and responsive design for all devices. Designed to be smooth and interactive for users.",
+    technologies: ["HTML", "CSS", "JavaScript"],
+    icon: "🏸",
+  },
+]
+
+const education = [
+  {
+    id: 1,
+    degree: "Bachelor of Computer Application",
+    institution: "Community Institute of Commerce and Management",
+    period: "2022-2025",
+    CGPA : 8.3,
+    icon: "🎓",
+  },
+  {
+    id: 2,
+    degree: "PRE-UNIVERSITY - Computer Science",
+    institution: "MotherTheresa Eci School",
+    period: "2020-2022",
+    CGPA : 6.1,
+    icon: "📚",
+  },
+]
+
+const hackathons = [
+  {
+    id: 1,
+    name: "SBI Hackathon 2024",
+    project: "FraudShield",
+    description:
+      "Developed an AI-powered fraud detection system integrating a web extension, OCR, and cyber-AI for real-time anomaly detection in insurance transactions.",
+    icon: "🛡️",
+  },
+  {
+    id: 2,
+    name: "NMIT hacks 2025",
+    project: "Smart Ambulance System",
+    description:
+      "Built an IoT-based Smart Ambulance system that detects and syncs with Green traffic signals to enable faster emergency response and reduce delays.",
+    icon: "🚑",
+  },
+  {
+    id: 3,
+    name: "Emerging Tech Hackathon",
+    project: "Image Recognition System",
+    description:
+      "Designed an image recognition system integrated with a Telegram bot to automatically detect and classify objects/images in real-time using computer vision techniques.",
+    icon: "📷",
+  },
+  {
+    id: 4,
+    name: "Pentathon 2025",
+    project: "Web Security Challenge",
+    description:
+      "Tackled web-based challenges like bypassing restricted access using tools such as Wireshark and network traffic analysis.",
+    icon: "🔒",
+  },
+]
+
+// const skills = [
+//   { id: 1, name: "Cloud Computing", icon: "☁️", level: 90 },
+//   { id: 2, name: "Linux", icon: "🐧", level: 85 },
+//   { id: 3, name: "AI and ML", icon: "🤖", level: 80 },
+//   { id: 4, name: "Docker Kubernetes", icon: "🐳", level: 85 },
+//   { id: 5, name: "Web Development", icon: "🌐", level: 90 },
+//   { id: 6, name: "Terraform", icon: "🏗️", level: 75 },
+// ]
+
+const skills = [
+  {
+    name: "Programming Languages",
+    icon: "👨‍💻",
+    items: ["Python 🐍", "PHP 🐘", "Java ☕", "C++ 💻"]
+  },
+  {
+    name: "Web Development",
+    icon: "🌐",
+    items: ["HTML 📄", "CSS 🎨", "JavaScript 🟨", "React ⚛️"]
+  },
+  {
+    name: "Database & Backend",
+    icon: "🗄️",
+    items: ["Firebase 🔥", "SQL 🗃️"]
+  },
+  {
+    name: "Cloud & DevOps",
+    icon: "☁️",
+    items: ["Docker 🐳", "Kubernetes ☸️", "AWS ☁️", "Google Cloud 🌥️", "Terraform 🏗️"]
+  },
+  {
+    name: "Other Tools",
+    icon: "🧰",
+    items: ["Linux 🐧", "AI and ML 🤖", "Cloud Computing ☁️"]
+  }
+];
+
+
+
+const additionalInfoData = [
+  { id: 1, title: "Languages", items: ["English", "Kannada", "Hindi", "Tamil", "Telugu"] },
+  { id: 2, title: "Certifications", items: ["Utl technologies Certification: Next Gen - AI and ML"] },
+  { id: 3, title: "Awards", items: ["Winner in IT Quiz", "IT Manager", "Photography"] },
+  { id: 4, title: "Cloud Badges", items: ["Cloud Computing", "Generative AI"] },
+]
+
+// Update the Three.js Background with enhanced 3D effects
+function initThreeJsBackground() {
+  const container = document.getElementById("canvas-container")
+
+  // Create scene
+  const scene = new THREE.Scene()
+
+  // Create camera
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+  camera.position.z = 5
+
+  // Create renderer
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
+  renderer.setSize(window.innerWidth, window.innerHeight)
+  renderer.setPixelRatio(window.devicePixelRatio)
+  container.appendChild(renderer.domElement)
+
+  // Create particles for starry background
+  const particlesGeometry = new THREE.BufferGeometry()
+  const particlesCount = 2000
+  const posArray = new Float32Array(particlesCount * 3)
+
+  for (let i = 0; i < particlesCount * 3; i++) {
+    posArray[i] = (Math.random() - 0.5) * 15
+  }
+
+  particlesGeometry.setAttribute("position", new THREE.BufferAttribute(posArray, 3))
+
+  // Create particle material
+  const particlesMaterial = new THREE.PointsMaterial({
+    size: 0.02,
+    color: 0x8a2be2,
+    transparent: true,
+    opacity: 0.8,
+    blending: THREE.AdditiveBlending,
+  })
+
+  // Create particle mesh
+  const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial)
+  scene.add(particlesMesh)
+
+  // Add ambient light
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+  scene.add(ambientLight)
+
+  // Add directional light
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
+  directionalLight.position.set(10, 10, 5)
+  scene.add(directionalLight)
+
+  // Add purple point light
+  const pointLight = new THREE.PointLight(0x8a2be2, 1, 100)
+  pointLight.position.set(-5, 5, 5)
+  scene.add(pointLight)
+
+  // Handle window resize
+  window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight
+    camera.updateProjectionMatrix()
+    renderer.setSize(window.innerWidth, window.innerHeight)
+  })
+
+  // Animation loop
+  function animate() {
+    requestAnimationFrame(animate)
+
+    // Animate particles
+    particlesMesh.rotation.x += 0.0005
+    particlesMesh.rotation.y += 0.0005
+
+    // Pulse the point light
+    const time = Date.now() * 0.001
+    pointLight.intensity = 1 + 0.5 * Math.sin(time * 2)
+
+    renderer.render(scene, camera)
+  }
+
+  animate()
+}
+
+// Initialize 3D backgrounds for each section
+function initSectionBackgrounds() {
+  // Projects section background
+  const projectsBg = document.getElementById("projects-bg")
+  createSectionBackground(projectsBg, 0x8a2be2, 0.1)
+
+  // Education section background
+  const educationBg = document.getElementById("education-bg")
+  createSectionBackground(educationBg, 0x3b82f6, 0.1)
+
+  // Hackathons section background
+  const hackathonsBg = document.getElementById("hackathons-bg")
+  createSectionBackground(hackathonsBg, 0x8a2be2, 0.1)
+
+  // Skills section background
+  const skillsBg = document.getElementById("skills-bg")
+  createSectionBackground(skillsBg, 0x3b82f6, 0.1)
+
+  // Contact section background
+  const contactBg = document.getElementById("contact-bg")
+  createSectionBackground(contactBg, 0x8a2be2, 0.1)
+
+  // Create 3D scene for contact section
+  createContactScene()
+}
+
+// Create 3D background for sections
+function createSectionBackground(container, color, opacity) {
+  // Create scene
+  const scene = new THREE.Scene()
+
+  // Create camera
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+  camera.position.z = 5
+
+  // Create renderer
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
+  renderer.setSize(container.clientWidth, container.clientHeight)
+  renderer.setPixelRatio(window.devicePixelRatio)
+  container.appendChild(renderer.domElement)
+
+  // Create particles
+  const particlesGeometry = new THREE.BufferGeometry()
+  const particlesCount = 500
+  const posArray = new Float32Array(particlesCount * 3)
+
+  for (let i = 0; i < particlesCount * 3; i++) {
+    posArray[i] = (Math.random() - 0.5) * 10
+  }
+
+  particlesGeometry.setAttribute("position", new THREE.BufferAttribute(posArray, 3))
+
+  // Create particle material
+  const particlesMaterial = new THREE.PointsMaterial({
+    size: 0.03,
+    color: color,
+    transparent: true,
+    opacity: opacity,
+    blending: THREE.AdditiveBlending,
+  })
+
+  // Create particle mesh
+  const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial)
+  scene.add(particlesMesh)
+
+  // Handle window resize
+  window.addEventListener("resize", () => {
+    renderer.setSize(container.clientWidth, container.clientHeight)
+  })
+
+  // Animation loop
+  function animate() {
+    requestAnimationFrame(animate)
+
+    particlesMesh.rotation.x += 0.0002
+    particlesMesh.rotation.y += 0.0002
+
+    renderer.render(scene, camera)
+  }
+
+  animate()
+}
+
+// Create 3D scene for contact section
+function createContactScene() {
+  const container = document.getElementById("contact-3d-scene")
+  if (!container) return
+
+  // Create scene
+  const scene = new THREE.Scene()
+
+  // Create camera
+  const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000)
+  camera.position.z = 5
+
+  // Create renderer
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
+  renderer.setSize(container.clientWidth, container.clientHeight)
+  renderer.setPixelRatio(window.devicePixelRatio)
+  container.appendChild(renderer.domElement)
+
+  // Create torus geometry
+  const torusGeometry = new THREE.TorusKnotGeometry(1, 0.3, 100, 16)
+
+  // Create material
+  const material = new THREE.MeshStandardMaterial({
+    color: 0x8a2be2,
+    roughness: 0.3,
+    metalness: 0.7,
+    emissive: 0x4d4dff,
+    emissiveIntensity: 0.2,
+  })
+
+  // Create mesh
+  const torus = new THREE.Mesh(torusGeometry, material)
+  scene.add(torus)
+
+  // Add lights
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+  scene.add(ambientLight)
+
+  const pointLight = new THREE.PointLight(0x8a2be2, 1, 100)
+  pointLight.position.set(5, 5, 5)
+  scene.add(pointLight)
+
+  // Handle window resize
+  window.addEventListener("resize", () => {
+    camera.aspect = container.clientWidth / container.clientHeight
+    camera.updateProjectionMatrix()
+    renderer.setSize(container.clientWidth, container.clientHeight)
+  })
+
+  // Animation loop
+  function animate() {
+    requestAnimationFrame(animate)
+
+    torus.rotation.x += 0.01
+    torus.rotation.y += 0.005
+
+    const time = Date.now() * 0.001
+    pointLight.intensity = 1 + 0.5 * Math.sin(time * 2)
+
+    renderer.render(scene, camera)
+  }
+
+  animate()
+}
+
+// Render Project Cards
+function renderProjects() {
+  projectsGrid.innerHTML = ""
+
+  projects.forEach((project) => {
+    const projectCard = document.createElement("div")
+    projectCard.className = "project-card"
+    projectCard.dataset.id = project.id
+
+    projectCard.innerHTML = `
+      <div class="project-icon">${project.icon}</div>
+      <h3 class="project-title">${project.title}</h3>
+      <p class="project-subtitle">${project.subtitle}</p>
+      <div class="project-tags">
+        ${project.technologies
+          .slice(0, 3)
+          .map(
+            (tech) => `
+          <span class="project-tag">${tech}</span>
+        `,
+          )
+          .join("")}
+        ${
+          project.technologies.length > 3
+            ? `
+          <span class="project-tag">+${project.technologies.length - 3}</span>
+        `
+            : ""
+        }
+      </div>
+    `
+
+    projectCard.addEventListener("click", () => openProjectModal(project))
+
+    projectsGrid.appendChild(projectCard)
+  })
+}
+
+// Render Education Cards
+function renderEducation() {
+  educationGrid.innerHTML = ""
+
+  education.forEach((edu) => {
+    const educationCard = document.createElement("div")
+    educationCard.className = "education-card"
+
+    educationCard.innerHTML = `
+      <div class="education-icon">${edu.icon}</div>
+      <div class="education-content">
+        <h3 class="education-degree">${edu.degree}</h3>
+        <p class="education-institution">${edu.institution}</p>
+        <p class="education-period">${edu.period}</p>
+        <p class="education-CGPA">${edu.CGPA}</p>
+      </div>
+    `
+
+    educationGrid.appendChild(educationCard)
+  })
+}
+
+// Render Hackathon Cards
+function renderHackathons() {
+  hackathonsGrid.innerHTML = ""
+
+  hackathons.forEach((hackathon) => {
+    const hackathonCard = document.createElement("div")
+    hackathonCard.className = "hackathon-card"
+
+    hackathonCard.innerHTML = `
+      <div class="hackathon-icon">${hackathon.icon}</div>
+      <h3 class="hackathon-name">${hackathon.name}</h3>
+      <p class="hackathon-project">${hackathon.project}</p>
+      <p class="hackathon-description">${hackathon.description}</p>
+    `
+
+    hackathonsGrid.appendChild(hackathonCard)
+  })
+}
+
+// Render Skill Cards
+// function renderSkills() {
+//   skillsGrid.innerHTML = ""
+
+//   skills.forEach((skill) => {
+//     const skillCard = document.createElement("div")
+//     skillCard.className = "skill-card"
+
+//     skillCard.innerHTML = `
+//       <div class="skill-header">
+//         <div class="skill-icon">${skill.icon}</div>
+//         <h3 class="skill-name">${skill.name}</h3>
+//       </div>
+      
+//     `
+
+//     skillsGrid.appendChild(skillCard)
+//   })
+// }
+
+function renderSkills() {
+  const skillsGrid = document.querySelector(".skills-grid");
+  if (!skillsGrid) return; // Prevent error if element is not found
+
+  skillsGrid.innerHTML = "";
+
+  skills.forEach((category) => {
+    const skillCard = document.createElement("div");
+    skillCard.className = "skill-card";
+
+    skillCard.innerHTML = `
+      <div class="skill-header">
+        <div class="skill-icon">${category.icon}</div>
+        <h3 class="skill-name">${category.name}</h3>
+      </div>
+      <ul class="skill-list">
+        ${category.items.map(item => `<li>${item}</li>`).join("")}
+      </ul>
+    `;
+
+    skillsGrid.appendChild(skillCard);
+  });
+}
+
+// Render Additional Info
+function renderAdditionalInfo() {
+  additionalInfo.innerHTML = ""
+
+  additionalInfoData.forEach((info) => {
+    const infoCard = document.createElement("div")
+    infoCard.className = "info-card"
+
+    infoCard.innerHTML = `
+      <h3 class="info-title">${info.title}</h3>
+      <ul class="info-list">
+        ${info.items
+          .map(
+            (item) => `
+          <li class="info-item">
+            <span class="info-item-dot"></span>
+            ${item}
+          </li>
+        `,
+          )
+          .join("")}
+      </ul>
+    `
+
+    additionalInfo.appendChild(infoCard)
+  })
+}
+
+// Open Project Modal
+function openProjectModal(project) {
+  modalBody.innerHTML = `
+    <div class="modal-icon">${project.icon}</div>
+    <h2 class="modal-title">${project.title}</h2>
+    <p class="modal-subtitle">${project.subtitle}</p>
+    
+    <div class="modal-section">
+      <h3 class="modal-section-title">Description</h3>
+      <p class="modal-description">${project.description}</p>
+    </div>
+    
+    <div class="modal-section">
+      <h3 class="modal-section-title">Technologies Used</h3>
+      <div class="modal-tags">
+        ${project.technologies
+          .map(
+            (tech) => `
+          <span class="modal-tag">${tech}</span>
+        `,
+          )
+          .join("")}
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="primary-btn">View Live Demo</button>
+    </div>
+  `
+
+  projectModal.classList.add("active")
+  document.body.style.overflow = "hidden"
+}
+
+// Close Project Modal
+function closeProjectModal() {
+  projectModal.classList.remove("active")
+  document.body.style.overflow = "auto"
+}
+
+// Copy Email
+function copyEmail() {
+  const email = "ruthvikarh@gmail.com"
+  navigator.clipboard.writeText(email)
+
+  const originalText = this.innerHTML
+  this.textContent = "Copied!"
+
+  setTimeout(() => {
+    this.innerHTML = originalText
+  }, 2000)
+}
+
+// Smooth Scrolling
+function initSmoothScrolling() {
+  const scrollButtons = document.querySelectorAll("[data-scroll]")
+
+  scrollButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const targetId = button.getAttribute("data-scroll")
+      const targetElement = document.getElementById(targetId)
+
+      if (targetElement) {
+        const navbarHeight = document.querySelector(".navbar").offsetHeight
+        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight
+
+        window.scrollTo({
+          top: targetPosition,
+          behavior: "smooth",
+        })
+      }
+    })
+  })
+}
+
+// Handle Contact Form Submission
+const contactForm = document.querySelector(".contact-form")
+function handleContactForm() {
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault()
+
+    const name = document.getElementById("name").value
+    const email = document.getElementById("email").value
+    const subject = document.getElementById("subject").value
+    const message = document.getElementById("message").value
+
+    // Here you would typically send the form data to a server
+    // For now, we'll just log it to the console
+    console.log("Form submitted:", { name, email, subject, message })
+
+    // Reset form
+    contactForm.reset()
+
+    // Show success message (you can replace this with a proper UI notification)
+    alert("Message sent successfully!")
+  })
+}
+
+// Initialize Animations with GSAP
+function initAnimations() {
+  // Hero section animations
+  gsap.from(".subtitle", { opacity: 0, y: 20, duration: 0.5 })
+  gsap.from(".title", { opacity: 0, y: 20, duration: 0.5, delay: 0.2 })
+  gsap.from(".description", { opacity: 0, y: 20, duration: 0.5, delay: 0.4 })
+  gsap.from(".hero-buttons", { opacity: 0, y: 20, duration: 0.5, delay: 0.6 })
+  // gsap.from(".profile-container", { opacity: 0, scale: 0.8, duration: 0.8 })
+
+  // Section animations with ScrollTrigger
+  gsap.registerPlugin(ScrollTrigger)
+
+  // Section headers
+  gsap.utils.toArray(".section-header").forEach((header) => {
+    gsap.from(header, {
+      opacity: 0,
+      y: 40,
+      duration: 0.5,
+      scrollTrigger: {
+        trigger: header,
+        start: "top 80%",
+        toggleActions: "play none none none",
+      },
+    })
+  })
+
+  // Project cards
+  gsap.utils.toArray(".project-card").forEach((card, i) => {
+    gsap.from(card, {
+      opacity: 0,
+      y: 20,
+      duration: 0.5,
+      delay: i * 0.1,
+      scrollTrigger: {
+        trigger: card,
+        start: "top 90%",
+        toggleActions: "play none none none",
+      },
+    })
+  })
+
+  // Education cards
+  gsap.utils.toArray(".education-card").forEach((card, i) => {
+    gsap.from(card, {
+      opacity: 0,
+      y: 20,
+      duration: 0.5,
+      delay: i * 0.1,
+      scrollTrigger: {
+        trigger: card,
+        start: "top 90%",
+        toggleActions: "play none none none",
+      },
+    })
+  })
+
+  // Hackathon cards
+  gsap.utils.toArray(".hackathon-card").forEach((card, i) => {
+    gsap.from(card, {
+      opacity: 0,
+      y: 20,
+      duration: 0.5,
+      delay: i * 0.1,
+      scrollTrigger: {
+        trigger: card,
+        start: "top 90%",
+        toggleActions: "play none none none",
+      },
+    })
+  })
+
+  // Skill cards
+  gsap.utils.toArray(".skill-card").forEach((card, i) => {
+    gsap.from(card, {
+      opacity: 0,
+      y: 20,
+      duration: 0.5,
+      delay: i * 0.1,
+      scrollTrigger: {
+        trigger: card,
+        start: "top 90%",
+        toggleActions: "play none none none",
+      },
+    })
+
+    // Animate skill progress bars
+    const progressBar = card.querySelector(".skill-progress")
+    const targetWidth = progressBar.style.width
+
+    gsap.fromTo(
+      progressBar,
+      { width: "0%" },
+      {
+        width: targetWidth,
+        duration: 1.5,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: card,
+          start: "top 90%",
+          toggleActions: "play none none none",
+        },
+      },
+    )
+  })
+
+  // Info cards
+  gsap.utils.toArray(".info-card").forEach((card, i) => {
+    gsap.from(card, {
+      opacity: 0,
+      y: 20,
+      duration: 0.5,
+      delay: i * 0.1,
+      scrollTrigger: {
+        trigger: card,
+        start: "top 90%",
+        toggleActions: "play none none none",
+      },
+    })
+  })
+
+  // Contact section
+  gsap.utils.toArray(".contact-info").forEach((info, i) => {
+    gsap.from(info, {
+      opacity: 0,
+      x: i % 2 === 0 ? -30 : 30,
+      duration: 0.5,
+      delay: i * 0.1,
+      scrollTrigger: {
+        trigger: ".contact-container",
+        start: "top 80%",
+        toggleActions: "play none none none",
+      },
+    })
+  })
+
+  // Add hover effects with GSAP
+  const cards = document.querySelectorAll(
+    ".project-card, .education-card, .hackathon-card, .skill-card, .info-card, .card",
+  )
+
+  cards.forEach((card) => {
+    card.addEventListener("mouseenter", () => {
+      gsap.to(card, {
+        y: -10,
+        duration: 0.3,
+        ease: "power2.out",
+      })
+    })
+
+    card.addEventListener("mouseleave", () => {
+      gsap.to(card, {
+        y: 0,
+        duration: 0.3,
+        ease: "power2.out",
+      })
+    })
+  })
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener("DOMContentLoaded", () => {
+  // Import necessary libraries
+  const THREE = window.THREE
+  const gsap = window.gsap
+  const ScrollTrigger = window.ScrollTrigger
+
+  // Render content
+  renderProjects()
+  renderEducation()
+  renderHackathons()
+  renderSkills()
+  renderAdditionalInfo()
+
+  // Initialize Three.js background
+  initThreeJsBackground()
+
+  // Initialize section backgrounds
+  initSectionBackgrounds()
+
+  // Initialize smooth scrolling
+  initSmoothScrolling()
+
+  // Initialize animations
+  initAnimations()
+
+  // Event listeners
+  copyEmailBtn.addEventListener("click", copyEmail)
+  if (copyEmailAltBtn) {
+    copyEmailAltBtn.addEventListener("click", copyEmail)
+  }
+  closeModalBtn.addEventListener("click", closeProjectModal)
+
+  // Close modal when clicking outside
+  projectModal.addEventListener("click", (e) => {
+    if (e.target === projectModal) {
+      closeProjectModal()
+    }
+  })
+
+  // Close modal with Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && projectModal.classList.contains("active")) {
+      closeProjectModal()
+    }
+  })
+
+  // Handle contact form
+  handleContactForm()
+})
+
+
+  document.getElementById("downloadResume").addEventListener("click", function () {
+    const link = document.createElement("a");
+    link.href = "assets/resume.pdf"; // adjust path
+    link.download = "Ruthvik.pdf"; // optional custom filename
+    link.click();
+  });
