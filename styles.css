@@ -79,8 +79,6 @@ h6 {
   text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
 }
 
-
-
 /* Buttons */
 .primary-btn {
   background: linear-gradient(to right, var(--purple-600), var(--blue-500));
@@ -276,7 +274,7 @@ h6 {
 
 .subtitle {
   color: var(--purple-500);
-  font-size: 6.25rem;
+  font-size: 4.25rem;
   margin-bottom: 0.5rem;
   text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
   animation: pulse 2s infinite alternate;
@@ -327,7 +325,8 @@ h6 {
   /* box-shadow: 0 0 30px rgba(138, 43, 226, 0.5); */
   transform-style: preserve-3d;
   transition: transform 0.5s ease;
-  padding: 20%;
+  /* padding: 20%; */
+  /* background-color: #0078d4; */
 }
 
 .profile-image img {
@@ -335,9 +334,10 @@ h6 {
   height: 100%;
   object-fit: cover;
   /* padding: 20%; */
-  /* background-color: #bb4949;
-  border-bottom-left-radius: 44%;
-  border-bottom-right-radius: 40%; */
+  background-color: #bb4949;
+  /* border-bottom-left-radius: 30%;
+  border-bottom-right-radius: 30%; */
+  /* border-bottom-radius :10% ; */
 }
 
 .glow-effect {
@@ -361,10 +361,10 @@ h6 {
   align-items: center;
 }
 
-/* .glow-circle {
+.glow-circle {
   position: absolute;
-  width: 60%;
-  height: 70%;
+  width: 55%;
+  height: 50%;
   border-radius: 50%;
   border: 2px solid var(--purple-500);
   box-shadow: 0 0 15px var(--purple-500), 0 0 30px var(--purple-500), inset 0 0 15px var(--purple-500);
@@ -373,8 +373,7 @@ h6 {
   padding: 20%;
   margin-right: 8%;
   margin-left: 6%;
-} */
-
+}
 
 .profile-image:hover img {
   transform: scale(1.05);
@@ -394,7 +393,7 @@ h6 {
   position: absolute;
   width: var(--icon-size);
   height: var(--icon-size);
-  border-radius:50%;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -408,8 +407,8 @@ h6 {
 }
 
 .github {
-  top: 68%;
-  left: 28%;
+  top: 64%;
+  left: 25%;
   bottom: 50%;
   transform: translateX(-50%) translateY(-50%);
   background: #6e5494;
@@ -418,15 +417,15 @@ h6 {
 
 .gmail {
   top: 30%;
-  left: 0;
+  left: 29%;
   transform: translateX(-50%);
-  background: #d7624b;
+  background: #d7b3ac;
   box-shadow: 0 0 10px #fba18f;
 }
 
 .linkedin {
-  top: 30%;
-  right: 0;
+  top: 40%;
+  right: 26%;
   transform: translateX(50%);
   background: #0078d4;
   box-shadow: 0 0 10px #0078d4;
@@ -583,6 +582,18 @@ h6 {
 .project-card:hover .project-title {
   color: var(--purple-400);
   transform: translateZ(15px);
+}
+
+.project-description {
+  color: var(--gray-400);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover .project-description {
+  transform: translateZ(10px);
 }
 
 .project-subtitle {
@@ -858,56 +869,23 @@ h6 {
   color: var(--purple-400);
 }
 
-.skill-bar {
-  width: 100%;
-  height: 0.625rem;
-  background-color: var(--gray-800);
-  border-radius: 9999px;
-  overflow: hidden;
+.skill-list {
+  list-style: none;
+  padding: 0;
+}
+
+.skill-list li {
+  color: var(--gray-300);
+  margin-bottom: 0.5rem;
+  padding-left: 1rem;
   position: relative;
-  transition: transform 0.5s ease;
 }
 
-.skill-card:hover .skill-bar {
-  transform: translateZ(5px);
-}
-
-.skill-progress {
-  height: 100%;
-  border-radius: 9999px;
-  background: linear-gradient(to right, var(--purple-600), var(--blue-500));
-  position: relative;
-  overflow: hidden;
-}
-
-.skill-progress::after {
-  content: "";
+.skill-list li::before {
+  content: "•";
+  color: var(--purple-500);
   position: absolute;
-  top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: translateX(-100%);
-  animation: shimmer 2s infinite;
-}
-
-.skill-percentage {
-  text-align: right;
-  margin-top: 0.5rem;
-  color: var(--gray-400);
-  font-size: 0.875rem;
-  transition: transform 0.5s ease;
-}
-
-.skill-card:hover .skill-percentage {
-  transform: translateZ(5px);
-  color: var(--purple-300);
 }
 
 .additional-info {
@@ -1115,6 +1093,7 @@ h6 {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  text-decoration: none;
 }
 
 .social-link::before {
@@ -1143,6 +1122,17 @@ h6 {
   width: 100%;
   height: 200px;
   margin: 1.5rem 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Make sure the canvas inside the container is properly sized */
+.contact-3d-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }
 
 .contact-cta {
@@ -1178,6 +1168,7 @@ h6 {
 .footer-social-link {
   color: var(--gray-400);
   transition: all 0.3s ease;
+  text-decoration: none;
 }
 
 .footer-social-link:hover {
@@ -1214,8 +1205,8 @@ h6 {
   border: 1px solid rgba(138, 43, 226, 0.2);
   border-radius: 0.75rem;
   width: 100%;
-  max-width: 48rem;
-  max-height: 90vh;
+  max-width: 36rem;
+  max-height: 80vh;
   overflow-y: auto;
   position: relative;
   transform: scale(0.9);
@@ -1264,7 +1255,7 @@ h6 {
 .modal-title {
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   transition: transform 0.5s ease, color 0.3s ease;
 }
 
@@ -1273,18 +1264,8 @@ h6 {
   transform: translateZ(15px);
 }
 
-.modal-subtitle {
-  color: var(--purple-400);
-  margin-bottom: 1.5rem;
-  transition: transform 0.5s ease;
-}
-
-.modal-content:hover .modal-subtitle {
-  transform: translateZ(10px);
-}
-
 .modal-section {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   transition: transform 0.5s ease;
 }
 
@@ -1302,6 +1283,7 @@ h6 {
 .modal-description {
   color: var(--gray-300);
   line-height: 1.7;
+  margin-bottom: 1rem;
 }
 
 .modal-tags {
@@ -1322,12 +1304,6 @@ h6 {
 .modal-tag:hover {
   background-color: rgba(76, 29, 149, 0.5);
   transform: scale(1.05);
-}
-
-.modal-footer {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--gray-800);
 }
 
 /* Animations */
