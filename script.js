@@ -4,33 +4,31 @@ const educationGrid = document.querySelector(".education-grid")
 const hackathonsGrid = document.querySelector(".hackathons-grid")
 const skillsGrid = document.querySelector(".skills-grid")
 const additionalInfo = document.querySelector(".additional-info")
-const copyEmailBtn = document.getElementById("copy-email")
-const copyEmailAltBtn = document.getElementById("copy-email-alt")
 const projectModal = document.getElementById("project-modal")
-const closeModalBtn = document.querySelector(".close-modal")
-const modalBody = document.querySelector(".modal-body")
+const closeModalBtn = document.getElementById("close-modal")
+const modalBody = document.getElementById("modal-body")
 const currentYearSpan = document.getElementById("current-year")
 
 // Set current year in footer
-currentYearSpan.textContent = new Date().getFullYear()
+if (currentYearSpan) {
+  currentYearSpan.textContent = new Date().getFullYear()
+}
 
-// Data - Modified to only include the 2 requested projects
+// Data - Updated with the exact project descriptions provided
 const projects = [
   {
     id: 1,
     title: "Face Recognition-based Employee Attendance System",
-    subtitle: "IoT + Cloud Face Recognition Attendance Tracker",
     description:
-      "Built an IoT-based system using Raspberry Pi & Firebase for employee attendance automation. Used face recognition for identity verification, stored 128-d encodings in Firestore. Implemented edge-cloud architecture for real-time, accurate, server-independent tracking.",
+      "Built an IoT-based system using Raspberry Pi and Firebase to automate employee attendance. Used face recognition for identity verification, stored 128-dimensional encodings in Firestore, and implemented edge-cloud architecture for real-time, accurate, and server-independent attendance tracking.",
     technologies: ["Raspberry Pi", "Picamera2", "Firebase Firestore", "Python", "Face Recognition", "OpenCV"],
     icon: "🔍",
   },
   {
     id: 2,
     title: "Badminton E-commerce Web App",
-    subtitle: "Responsive Shopping Site for Badminton Gear",
     description:
-      "Created a user-friendly shopping platform with login, product browsing, and checkout. Features add-to-cart, delivery address input, and responsive design for all devices. Designed to be smooth and interactive for users.",
+      "Developed a user-friendly e-commerce platform that allows users to log in, browse a variety of badminton products, add items to their cart, and complete purchases by entering basic delivery details. The app provides an intuitive shopping experience with a responsive design.",
     technologies: ["HTML", "CSS", "JavaScript"],
     icon: "🏸",
   },
@@ -42,7 +40,7 @@ const education = [
     degree: "Bachelor of Computer Application",
     institution: "Community Institute of Commerce and Management",
     period: "2022-2025",
-    CGPA : 8.3,
+    CGPA: 8.3,
     icon: "🎓",
   },
   {
@@ -50,7 +48,7 @@ const education = [
     degree: "PRE-UNIVERSITY - Computer Science",
     institution: "MotherTheresa Eci School",
     period: "2020-2022",
-    CGPA : 6.1,
+    CGPA: 6.2,
     icon: "📚",
   },
 ]
@@ -90,44 +88,33 @@ const hackathons = [
   },
 ]
 
-// const skills = [
-//   { id: 1, name: "Cloud Computing", icon: "☁️", level: 90 },
-//   { id: 2, name: "Linux", icon: "🐧", level: 85 },
-//   { id: 3, name: "AI and ML", icon: "🤖", level: 80 },
-//   { id: 4, name: "Docker Kubernetes", icon: "🐳", level: 85 },
-//   { id: 5, name: "Web Development", icon: "🌐", level: 90 },
-//   { id: 6, name: "Terraform", icon: "🏗️", level: 75 },
-// ]
-
 const skills = [
   {
     name: "Programming Languages",
     icon: "👨‍💻",
-    items: ["Python 🐍", "PHP 🐘", "Java ☕", "C++ 💻"]
+    items: ["Python 🐍", "PHP 🐘", "Java ☕", "C++ 💻"],
   },
   {
     name: "Web Development",
     icon: "🌐",
-    items: ["HTML 📄", "CSS 🎨", "JavaScript 🟨", "React ⚛️"]
+    items: ["HTML 📄", "CSS 🎨", "JavaScript 🟨", "React ⚛️"],
   },
   {
     name: "Database & Backend",
     icon: "🗄️",
-    items: ["Firebase 🔥", "SQL 🗃️"]
+    items: ["Firebase 🔥", "SQL 🗃️"],
   },
   {
     name: "Cloud & DevOps",
     icon: "☁️",
-    items: ["Docker 🐳", "Kubernetes ☸️", "AWS ☁️", "Google Cloud 🌥️", "Terraform 🏗️"]
+    items: ["Docker 🐳", "Kubernetes ☸️", "AWS ☁️", "Google Cloud 🌥️", "Terraform 🏗️"],
   },
   {
     name: "Other Tools",
     icon: "🧰",
-    items: ["Linux 🐧", "AI and ML 🤖", "Cloud Computing ☁️"]
-  }
-];
-
-
+    items: ["Linux 🐧", "AI and ML 🤖", "Cloud Computing ☁️"],
+  },
+]
 
 const additionalInfoData = [
   { id: 1, title: "Languages", items: ["English", "Kannada", "Hindi", "Tamil", "Telugu"] },
@@ -136,9 +123,64 @@ const additionalInfoData = [
   { id: 4, title: "Cloud Badges", items: ["Cloud Computing", "Generative AI"] },
 ]
 
-// Update the Three.js Background with enhanced 3D effects
+// Copy Email Function
+function copyEmailToClipboard() {
+  const email = "ruthvikarh@gmail.com"
+
+  // Try modern clipboard API first
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard
+      .writeText(email)
+      .then(() => {
+        showCopySuccess(this)
+      })
+      .catch(() => {
+        // Fallback to older method
+        fallbackCopyTextToClipboard(email, this)
+      })
+  } else {
+    // Fallback for older browsers
+    fallbackCopyTextToClipboard(email, this)
+  }
+}
+
+function fallbackCopyTextToClipboard(text, button) {
+  const textArea = document.createElement("textarea")
+  textArea.value = text
+  textArea.style.position = "fixed"
+  textArea.style.left = "-999999px"
+  textArea.style.top = "-999999px"
+  document.body.appendChild(textArea)
+  textArea.focus()
+  textArea.select()
+
+  try {
+    document.execCommand("copy")
+    showCopySuccess(button)
+  } catch (err) {
+    console.error("Fallback: Oops, unable to copy", err)
+  }
+
+  document.body.removeChild(textArea)
+}
+
+function showCopySuccess(button) {
+  const originalHTML = button.innerHTML
+  button.innerHTML = '<i class="fas fa-check"></i> Gmail copied'
+  button.style.background = "linear-gradient(to right, #10b981, #059669)"
+
+  setTimeout(() => {
+    button.innerHTML = originalHTML
+    button.style.background = ""
+  }, 2000)
+}
+
+// Initialize Three.js Background
 function initThreeJsBackground() {
+  if (typeof THREE === "undefined") return
+
   const container = document.getElementById("canvas-container")
+  if (!container) return
 
   // Create scene
   const scene = new THREE.Scene()
@@ -302,7 +344,10 @@ function createSectionBackground(container, color, opacity) {
 // Create 3D scene for contact section
 function createContactScene() {
   const container = document.getElementById("contact-3d-scene")
-  if (!container) return
+  if (!container) {
+    console.error("Contact 3D scene container not found")
+    return
+  }
 
   // Create scene
   const scene = new THREE.Scene()
@@ -343,9 +388,11 @@ function createContactScene() {
 
   // Handle window resize
   window.addEventListener("resize", () => {
-    camera.aspect = container.clientWidth / container.clientHeight
-    camera.updateProjectionMatrix()
-    renderer.setSize(container.clientWidth, container.clientHeight)
+    if (container.clientWidth > 0 && container.clientHeight > 0) {
+      camera.aspect = container.clientWidth / container.clientHeight
+      camera.updateProjectionMatrix()
+      renderer.setSize(container.clientWidth, container.clientHeight)
+    }
   })
 
   // Animation loop
@@ -362,10 +409,14 @@ function createContactScene() {
   }
 
   animate()
+
+  console.log("Contact 3D scene initialized")
 }
 
 // Render Project Cards
 function renderProjects() {
+  if (!projectsGrid) return
+
   projectsGrid.innerHTML = ""
 
   projects.forEach((project) => {
@@ -374,29 +425,22 @@ function renderProjects() {
     projectCard.dataset.id = project.id
 
     projectCard.innerHTML = `
-      <div class="project-icon">${project.icon}</div>
-      <h3 class="project-title">${project.title}</h3>
-      <p class="project-subtitle">${project.subtitle}</p>
-      <div class="project-tags">
-        ${project.technologies
-          .slice(0, 3)
-          .map(
-            (tech) => `
-          <span class="project-tag">${tech}</span>
-        `,
-          )
-          .join("")}
-        ${
-          project.technologies.length > 3
-            ? `
-          <span class="project-tag">+${project.technologies.length - 3}</span>
-        `
-            : ""
-        }
-      </div>
-    `
+  <div class="project-icon">${project.icon}</div>
+  <h3 class="project-title">${project.title}</h3>
+  <p class="project-description">${project.description}</p>
+  <div class="project-tags">
+    ${project.technologies
+      .map(
+        (tech) => `
+      <span class="project-tag">${tech}</span>
+    `,
+      )
+      .join("")}
+  </div>
+`
 
-    projectCard.addEventListener("click", () => openProjectModal(project))
+    // Remove this line or comment it out:
+    // projectCard.addEventListener("click", () => openProjectModal(project));
 
     projectsGrid.appendChild(projectCard)
   })
@@ -404,6 +448,8 @@ function renderProjects() {
 
 // Render Education Cards
 function renderEducation() {
+  if (!educationGrid) return
+
   educationGrid.innerHTML = ""
 
   education.forEach((edu) => {
@@ -416,7 +462,7 @@ function renderEducation() {
         <h3 class="education-degree">${edu.degree}</h3>
         <p class="education-institution">${edu.institution}</p>
         <p class="education-period">${edu.period}</p>
-        <p class="education-CGPA">${edu.CGPA}</p>
+        <p class="education-CGPA">CGPA: ${edu.CGPA}</p>
       </div>
     `
 
@@ -426,6 +472,8 @@ function renderEducation() {
 
 // Render Hackathon Cards
 function renderHackathons() {
+  if (!hackathonsGrid) return
+
   hackathonsGrid.innerHTML = ""
 
   hackathons.forEach((hackathon) => {
@@ -444,34 +492,14 @@ function renderHackathons() {
 }
 
 // Render Skill Cards
-// function renderSkills() {
-//   skillsGrid.innerHTML = ""
-
-//   skills.forEach((skill) => {
-//     const skillCard = document.createElement("div")
-//     skillCard.className = "skill-card"
-
-//     skillCard.innerHTML = `
-//       <div class="skill-header">
-//         <div class="skill-icon">${skill.icon}</div>
-//         <h3 class="skill-name">${skill.name}</h3>
-//       </div>
-      
-//     `
-
-//     skillsGrid.appendChild(skillCard)
-//   })
-// }
-
 function renderSkills() {
-  const skillsGrid = document.querySelector(".skills-grid");
-  if (!skillsGrid) return; // Prevent error if element is not found
+  if (!skillsGrid) return
 
-  skillsGrid.innerHTML = "";
+  skillsGrid.innerHTML = ""
 
   skills.forEach((category) => {
-    const skillCard = document.createElement("div");
-    skillCard.className = "skill-card";
+    const skillCard = document.createElement("div")
+    skillCard.className = "skill-card"
 
     skillCard.innerHTML = `
       <div class="skill-header">
@@ -479,16 +507,18 @@ function renderSkills() {
         <h3 class="skill-name">${category.name}</h3>
       </div>
       <ul class="skill-list">
-        ${category.items.map(item => `<li>${item}</li>`).join("")}
+        ${category.items.map((item) => `<li>${item}</li>`).join("")}
       </ul>
-    `;
+    `
 
-    skillsGrid.appendChild(skillCard);
-  });
+    skillsGrid.appendChild(skillCard)
+  })
 }
 
 // Render Additional Info
 function renderAdditionalInfo() {
+  if (!additionalInfo) return
+
   additionalInfo.innerHTML = ""
 
   additionalInfoData.forEach((info) => {
@@ -517,13 +547,13 @@ function renderAdditionalInfo() {
 
 // Open Project Modal
 function openProjectModal(project) {
+  if (!modalBody || !projectModal) return
+
   modalBody.innerHTML = `
     <div class="modal-icon">${project.icon}</div>
     <h2 class="modal-title">${project.title}</h2>
-    <p class="modal-subtitle">${project.subtitle}</p>
     
     <div class="modal-section">
-      <h3 class="modal-section-title">Description</h3>
       <p class="modal-description">${project.description}</p>
     </div>
     
@@ -539,10 +569,6 @@ function openProjectModal(project) {
           .join("")}
       </div>
     </div>
-    
-    <div class="modal-footer">
-      <button class="primary-btn">View Live Demo</button>
-    </div>
   `
 
   projectModal.classList.add("active")
@@ -551,22 +577,43 @@ function openProjectModal(project) {
 
 // Close Project Modal
 function closeProjectModal() {
+  if (!projectModal) return
+
   projectModal.classList.remove("active")
   document.body.style.overflow = "auto"
 }
 
 // Copy Email
-function copyEmail() {
-  const email = "ruthvikarh@gmail.com"
-  navigator.clipboard.writeText(email)
+// function copyEmail() {
+//   const email = "ruthvikarh@gmail.com"
 
-  const originalText = this.innerHTML
-  this.textContent = "Copied!"
+//   // Create a temporary input element
+//   const tempInput = document.createElement("input")
+//   tempInput.value = email
+//   document.body.appendChild(tempInput)
 
-  setTimeout(() => {
-    this.innerHTML = originalText
-  }, 2000)
-}
+//   // Select the text
+//   tempInput.select()
+//   tempInput.setSelectionRange(0, 99999) // For mobile devices
+
+//   // Copy the text
+//   document.execCommand("copy")
+
+//   // Remove the temporary element
+//   document.body.removeChild(tempInput)
+
+//   // Show feedback to user
+//   this.innerHTML = "<i class='fas fa-check'></i> Gmail copied"
+
+//   // Reset after 2 seconds
+//   setTimeout(() => {
+//     if (this.id === "copy-email") {
+//       this.innerHTML = "Copy Gmail <i class='fas fa-envelope'></i>"
+//     } else {
+//       this.innerHTML = "<i class='fas fa-envelope'></i> Copy Email Address"
+//     }
+//   }, 2000)
+// }
 
 // Smooth Scrolling
 function initSmoothScrolling() {
@@ -578,7 +625,7 @@ function initSmoothScrolling() {
       const targetElement = document.getElementById(targetId)
 
       if (targetElement) {
-        const navbarHeight = document.querySelector(".navbar").offsetHeight
+        const navbarHeight = document.querySelector(".navbar")?.offsetHeight || 0
         const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight
 
         window.scrollTo({
@@ -774,11 +821,6 @@ function initAnimations() {
 
 // Initialize everything when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
-  // Import necessary libraries
-  const THREE = window.THREE
-  const gsap = window.gsap
-  const ScrollTrigger = window.ScrollTrigger
-
   // Render content
   renderProjects()
   renderEducation()
@@ -789,44 +831,64 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize Three.js background
   initThreeJsBackground()
 
-  // Initialize section backgrounds
+  // Initialize section backgrounds including contact 3D scene
   initSectionBackgrounds()
 
   // Initialize smooth scrolling
   initSmoothScrolling()
 
-  // Initialize animations
-  initAnimations()
+  // Add event listeners for copy email buttons
+  const copyEmailButtons = document.querySelectorAll(".copy-email-btn")
+  copyEmailButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      const email = "ruthvikarh@gmail.com"
 
-  // Event listeners
-  copyEmailBtn.addEventListener("click", copyEmail)
-  if (copyEmailAltBtn) {
-    copyEmailAltBtn.addEventListener("click", copyEmail)
+      // Try modern clipboard API first
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard
+          .writeText(email)
+          .then(() => {
+            showCopySuccess(this)
+          })
+          .catch(() => {
+            // Fallback to older method
+            fallbackCopyTextToClipboard(email, this)
+          })
+      } else {
+        // Fallback for older browsers
+        fallbackCopyTextToClipboard(email, this)
+      }
+    })
+  })
+
+  // Add event listener for close modal button
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener("click", closeProjectModal)
   }
-  closeModalBtn.addEventListener("click", closeProjectModal)
 
   // Close modal when clicking outside
-  projectModal.addEventListener("click", (e) => {
-    if (e.target === projectModal) {
-      closeProjectModal()
-    }
-  })
+  if (projectModal) {
+    projectModal.addEventListener("click", (e) => {
+      if (e.target === projectModal) {
+        closeProjectModal()
+      }
+    })
+  }
 
   // Close modal with Escape key
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && projectModal.classList.contains("active")) {
+    if (e.key === "Escape" && projectModal?.classList.contains("active")) {
       closeProjectModal()
     }
   })
 
-  // Handle contact form
-  handleContactForm()
+  // Initialize animations
+  initAnimations()
 })
 
-
-  document.getElementById("downloadResume").addEventListener("click", function () {
-    const link = document.createElement("a");
-    link.href = "assets/resume.pdf"; // adjust path
-    link.download = "Ruthvik.pdf"; // optional custom filename
-    link.click();
-  });
+document.getElementById("downloadResume").addEventListener("click", () => {
+  const link = document.createElement("a")
+  link.href = "assets/resume.pdf" // adjust path
+  link.download = "Ruthvik.pdf" // optional custom filename
+  link.click()
+})
