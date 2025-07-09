@@ -107,13 +107,18 @@ const skills = [
   {
     name: "Cloud & DevOps",
     icon: "☁️",
-    items: ["Docker 🐳", "Kubernetes ☸️", "AWS ☁️", "Google Cloud 🌥️", "Terraform 🏗️"],
+    items: ["Docker 🐳", "AWS ☁️", "Google Cloud 🌥️","Linux 🐧", "Cloud Computing ☁️"],
   },
   {
-    name: "Other Tools",
+    name: "Tools & Technologies",
     icon: "🧰",
-    items: ["Linux 🐧", "AI and ML 🤖", "Cloud Computing ☁️"],
+    items: [,"VS Code", "N8N", "VE0.dev", "GitHub", "Bolt", "Claude", "ChatGPT", "Google Studio"],
   },
+  {
+    name:" AI & Machine Learning",
+    icon: "🤖",
+    items: ["Natural language processing 🤖", "AI Agents 🧳", "Machine Learning ⚙️", "Prompt Engineering 💬", "Generative AI 🧠"],
+  }
 ]
 
 const additionalInfoData = [
