@@ -32,6 +32,14 @@ const projects = [
     technologies: ["HTML", "CSS", "JavaScript"],
     icon: "🏸",
   },
+  {
+    id: 3,
+    title: "Personal Portfolio Website - Hosted on AWS S3",
+    description:
+      "A fully responsive personal portfolio website showcasing my skills, projects, and professional background.The website is designed using modern frontend technologies and securely hosted on AWS S3 with static website hosting enabled.",
+    technologies: ["HTML", "CSS", "JavaScript","AWS S3"],
+    icon: "🧑‍💻",
+  },
 ]
 
 const education = [
