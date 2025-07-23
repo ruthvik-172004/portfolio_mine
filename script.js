@@ -40,6 +40,14 @@ const projects = [
     technologies: ["HTML", "CSS", "JavaScript","AWS S3"],
     icon: "🧑‍💻",
   },
+   {
+    id:4,
+    title: "AI Voice Call Assistant for Cake Shop/Cafe (Personal Project)",
+    description:
+    "Built a voice-enabled AI agent using n8n to automate order placement, tracking, delivery updates, and stock checks.Integrated webhooks and APIs to enable real-time voice interactions and reduce manual customer service tasks",
+    technologies: ["n8n","Webhooks", "APIs","Twillio"],
+    icon: "📞",
+  },
 ]
 
 const education = [
