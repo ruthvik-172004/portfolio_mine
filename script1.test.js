@@ -2,6 +2,6 @@
 const add = require('./script1.js');
 
 // This is the actual test
-test('Check if 1 + 2 equals 3', () => {
+test('Check if 1 + 2 equals 6', () => {
   expect(add(1, 2)).toBe(3);
 });
