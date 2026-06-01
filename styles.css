@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 /* Base Styles */
 :root {
   --purple-300: #c4b5fd;
@@ -3302,4 +3303,14 @@ canvas {
   transform: rotate(45deg);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+/* Professional Font for RAG Chatbot */
+.rag-chat-root,
+.rag-chat-root input,
+.rag-chat-root button,
+.rag-chat-popup,
+.rag-chat-popup button {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
 }
